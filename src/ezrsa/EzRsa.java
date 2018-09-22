@@ -3,15 +3,12 @@ package ezrsa;
 import java.math.*;
 import java.nio.ByteBuffer;
 import java.util.*;
-import java.io.*;
 
 /**
- * 
  * @author 张泽威
- *
  */
 
-public class EzRsa {
+public final class EzRsa {
     // 密钥位数
     private int keySize;
 
@@ -38,9 +35,9 @@ public class EzRsa {
 
     /**
      * 生成密钥对.
-     * 
+     *
      * @param keySize 密钥比特位长度
-     * @throws RsaException
+     * @throws RsaException RsaException
      */
     public void generateKey(int keySize) throws RsaException {
         // 获得keySize位的随机素数
@@ -67,25 +64,25 @@ public class EzRsa {
 
     /**
      * 扩展欧几里得法 求ax+by=1的整数解.
-     * 
-     * @param a
-     * @param b
-     * @return
+     *
+     * @param a number a
+     * @param b number b
+     * @return RsaException
      */
-    protected BigInteger[] extGcd(BigInteger a, BigInteger b) {
+    private BigInteger[] extGcd(BigInteger a, BigInteger b) {
         //
         if (b.intValue() == 0)
-            return new BigInteger[] { new BigInteger("1"), new BigInteger("0") };
+            return new BigInteger[]{new BigInteger("1"), new BigInteger("0")};
         //
         BigInteger val[] = extGcd(b, a.mod(b));
-        return new BigInteger[] { val[1], val[0].subtract(a.divide(b).multiply(val[1])) };
+        return new BigInteger[]{val[1], val[0].subtract(a.divide(b).multiply(val[1]))};
     }
 
     /**
      * Returns a generated public key.
-     * 
-     * @return
-     * @throws RsaException
+     *
+     * @return Key
+     * @throws RsaException RsaException
      */
     public Key getPublicKey() throws RsaException {
         //
@@ -100,9 +97,9 @@ public class EzRsa {
 
     /**
      * Returns a generated private key.
-     * 
-     * @return
-     * @throws RsaException
+     *
+     * @return Key
+     * @throws RsaException RsaException
      */
     public Key getPrivateKey() throws RsaException {
         //
@@ -117,11 +114,11 @@ public class EzRsa {
 
     /**
      * Encrypt a string.
-     * 
-     * @param m
-     * @param publicKey
-     * @return
-     * @throws RsaException
+     *
+     * @param m         明文
+     * @param publicKey 公钥
+     * @return String
+     * @throws RsaException RsaException
      */
     public String encrypt(String m, Key publicKey) throws RsaException {
         try {
@@ -144,11 +141,11 @@ public class EzRsa {
 
     /**
      * Decrypt a string.
-     * 
-     * @param c
-     * @param privateKey
-     * @return
-     * @throws RsaException
+     *
+     * @param c          密文
+     * @param privateKey 私钥
+     * @return String
+     * @throws RsaException RsaException
      */
     public String decrypt(String c, Key privateKey) throws RsaException {
         try {
@@ -170,11 +167,11 @@ public class EzRsa {
 
     /**
      * Returns an encrypted string.
-     * 
-     * @param m
-     * @param publicKeyString
-     * @return
-     * @throws RsaException
+     *
+     * @param m               明文
+     * @param publicKeyString 公钥
+     * @return String
+     * @throws RsaException RsaException
      */
     public String encrypt(String m, String publicKeyString) throws RsaException {
         //
@@ -183,11 +180,11 @@ public class EzRsa {
 
     /**
      * Returns a decrypted string.
-     * 
-     * @param c
-     * @param privateKeyString
-     * @return
-     * @throws RsaException
+     *
+     * @param c                密文
+     * @param privateKeyString 私钥
+     * @return String
+     * @throws RsaException RsaException
      */
     public String decrypt(String c, String privateKeyString) throws RsaException {
         //
@@ -196,11 +193,11 @@ public class EzRsa {
 
     /**
      * Returns an encrypted long string.
-     * 
-     * @param m
-     * @param publicKeyString
-     * @return
-     * @throws RsaException
+     *
+     * @param m               明文
+     * @param publicKeyString 公钥
+     * @return String
+     * @throws RsaException RsaException
      */
     public String encryptLongString(String m, String publicKeyString) throws RsaException {
         //
@@ -209,11 +206,11 @@ public class EzRsa {
 
     /**
      * Returns a decrypted long string.
-     * 
-     * @param c
-     * @param privateKeyString
-     * @return
-     * @throws RsaException
+     *
+     * @param c                密文
+     * @param privateKeyString 私钥
+     * @return String
+     * @throws RsaException RsaException
      */
     public String decryptLongString(String c, String privateKeyString) throws RsaException {
         //
@@ -222,11 +219,11 @@ public class EzRsa {
 
     /**
      * Encrypt a long string.
-     * 
+     *
      * @param m         明文
      * @param publicKey 公钥字符串
      * @return String
-     * @throws RsaException
+     * @throws RsaException RsaException
      */
     public String encryptLongString(String m, Key publicKey) throws RsaException {
         try {
@@ -260,11 +257,11 @@ public class EzRsa {
 
     /**
      * Decrypt a long string.
-     * 
+     *
      * @param c          密文
      * @param privateKey 私钥
      * @return String 明文
-     * @throws RsaException
+     * @throws RsaException RsaException
      */
     public String decryptLongString(String c, Key privateKey) throws RsaException {
         try {
@@ -302,13 +299,13 @@ public class EzRsa {
 
     /**
      * 快速模幂运算.
-     * 
-     * @param base
-     * @param exponent
-     * @param m
-     * @return
+     *
+     * @param base     Base
+     * @param exponent Exponent
+     * @param m        Modes
+     * @return BigInteger
      */
-    protected BigInteger modPow(BigInteger base, BigInteger exponent, BigInteger m) {
+    private BigInteger modPow(BigInteger base, BigInteger exponent, BigInteger m) {
         //
         BigInteger sum = BigInteger.ONE;
         base = base.mod(m);
@@ -326,12 +323,12 @@ public class EzRsa {
 
     /**
      * Returns a key transformed from keyString.
-     * 
+     *
      * @param keyString 密钥串
      * @return Key 密钥
-     * @throws RsaException
+     * @throws RsaException RsaException
      */
-    protected Key getKeyByString(String keyString) throws RsaException {
+    private Key getKeyByString(String keyString) throws RsaException {
         String val[] = keyString.split("[+]");
         Key key = new Key();
 
@@ -346,21 +343,25 @@ public class EzRsa {
 
     /**
      * Returns a huge prime randomly.
-     * 
+     *
      * @param bitLength 素數位長度
      * @return BigInteger
      */
-    protected BigInteger getPrime(int bitLength) throws RsaException {
+    private BigInteger getPrime(int bitLength) throws RsaException {
         //
         BigInteger big = null;
 
         if (bitLength <= 0)
             throw new RsaException("the bit length of prime cannot be zero");
 
-        for (;;) {
+        for (int iteration = 0; ; iteration++) {
             big = BigInteger.probablePrime(bitLength, new Random());
-            if (big.isProbablePrime(1))
+            if (big.isProbablePrime(1)) {
                 break;
+            }
+            if (iteration > 0xfffffff) {
+                throw new RsaException("产生大素数失败!");
+            }
         }
 
         return big;
